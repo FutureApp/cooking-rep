@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veggie Vorkochen: 9 leckere Rezepte</title>
+    <style>
+        /* --- Google Font --- */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+
+        /* --- CSS Variablen (für einfaches Anpassen) --- */
+        :root {
+            --primary-color: #4CAF50; /* Ein frisches Grün */
+            --secondary-color: #ff9800; /* Ein warmer Orangeton */
+            --background-color: #fdfdfd;
+            --card-background-color: #ffffff;
+            --text-color: #333333;
+            --heading-font: 'Playfair Display', serif;
+            --body-font: 'Lato', sans-serif;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --border-radius: 8px;
+        }
+
+        /* --- Allgemeine Stile & Reset --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--body-font);
+            line-height: 1.7;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        /* --- Layout & Container --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-family: var(--heading-font);
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        nav#recipe-nav {
+            background: var(--card-background-color);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+
+        nav#recipe-nav h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-family: var(--heading-font);
+            color: var(--primary-color);
+        }
+        
+        nav#recipe-nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        nav#recipe-nav a {
+            text-decoration: none;
+            color: var(--primary-color);
+            background-color: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 700;
+        }
+
+        nav#recipe-nav a:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* --- Rezept-Karten --- */
+        .recipe-card {
+            background-color: var(--card-background-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+            padding: 30px;
+            overflow: hidden; /* Für saubere Kanten */
+        }
+        
+        .recipe-card h2 {
+            font-family: var(--heading-font);
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+
+        .recipe-card h3 {
+            font-family: var(--heading-font);
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .recipe-details {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .shopping-list, .preparation {
+            flex: 1;
+            min-width: 280px; /* Umbruchverhalten steuern */
+        }
+
+        .shopping-list ul, .preparation ol {
+            padding-left: 20px;
+        }
+        
+        .shopping-list li, .preparation li {
+            margin-bottom: 8px;
+        }
+
+        .freezing-tip {
+            margin-top: 25px;
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 20px;
+            border-radius: var(--border-radius);
+        }
+
+        .freezing-tip strong {
+            color: #1e88e5;
+        }
+
+        /* --- Back-to-Top Button (JavaScript gesteuert) --- */
+        #toTopBtn {
+            display: none; /* Initial versteckt */
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 18px;
+            width: 50px;
+            height: 50px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+
+        #toTopBtn:hover {
+            background-color: #3e8e41; /* Etwas dunkleres Grün */
+        }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            .recipe-details {
+                flex-direction: column;
+            }
+            nav#recipe-nav ul {
+                gap: 8px;
+            }
+            nav#recipe-nav a {
+                padding: 6px 12px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Veggie Vorkochen</h1>
+        <p>9 leckere, einfache und vegetarische Rezepte, die sich perfekt einfrieren lassen.</p>
+    </header>
+
+    <div class="container">
+        
+        <nav id="recipe-nav">
+            <h2>Rezeptübersicht</h2>
+            <ul>
+                <li><a href="#rezept1">Linsensuppe</a></li>
+                <li><a href="#rezept2">Chili sin Carne</a></li>
+                <li><a href="#rezept3">Linsen-Bolognese</a></li>
+                <li><a href="#rezept4">Kichererbsen-Curry</a></li>
+                <li><a href="#rezept5">Gemüse-Bratlinge</a></li>
+                <li><a href="#rezept6">Gemüse-Lasagne</a></li>
+                <li><a href="#rezept7">Linsen-Cottage-Pie</a></li>
+                <li><a href="#rezept8">Erdnusseintopf</a></li>
+                <li><a href="#rezept9">Minestrone</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <!-- REZEPT 1: ROTE LINSENSUPPE -->
+            <section id="rezept1" class="recipe-card">
+                <h2>1. Klassische Rote Linsensuppe</h2>
+                <p class="description">Ein echter Klassiker, der wärmt, sättigt und voller Nährstoffe ist. Super einfach, günstig und schmeckt aufgewärmt fast noch besser.</p>
+                <div class="recipe-details">
+                    <div class="shopping-list">
+                        <h3>Einkaufsliste</h3>
+                        <ul>
+                            <li>2 Zwiebeln</li>
+                            <li>3 Karotten</li>
+                            <li>2 Stangen Staudensellerie</li>
+                            <li>250g rote Linsen</li>
+                            <li>1 Dose gehackte Tomaten (400g)</li>
+                            <li>1.5L Gemüsebrühe</li>
+                            <li>1 Zitrone</li>
+                            <li>Olivenöl</li>
+                            <li>Salz, Pfeffer, Kreuzkümmel</li>
+                        </ul>
+                    </div>
+                    <div class="preparation">
+                        <h3>Zubereitung</h3>
+                        <ol>
+                            <li>Zwiebeln, Karotten und Sellerie schälen und in kleine Würfel schneiden.</li>
+                            <li>Etwas Olivenöl in einem großen Topf erhitzen und das Gemüse darin ca. 5 Minuten andünsten.</li>
+                            <li>Rote Linsen kurz abspülen und zusammen mit den gehackten Tomaten und der Gemüsebrühe in den Topf geben.</li>
+                            <li>Alles aufkochen lassen und dann bei mittlerer Hitze ca. 20 Minuten köcheln lassen, bis die Linsen weich sind.</li>
+                            <li>Die Suppe mit Salz, Pfeffer, einer guten Prise Kreuzkümmel und einem kräftigen Spritzer Zitronensaft abschmecken. Wer mag, kann sie teilweise oder ganz pürieren.</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="freezing-tip">
+                    <strong>❄️ Einfrier-Tipp:</strong> Die Suppe vollständig abkühlen lassen und dann portionsweise in gefriergeeignete Behälter füllen. Hält sich im Gefrierschrank mindestens 3 Monate.
+                </div>
+            </section>
+
+            <!-- REZEPT 2: CHILI SIN CARNE -->
+            <section id="rezept2" class="recipe-card">
+                <h2>2. Chili sin Carne</h2>
+                <p class="description">Der vegetarische Party-Hit, der sich perfekt vorbereiten lässt. Herzhaft, würzig und sehr variabel.</p>
+                <div class="recipe-details">
+                    <div class="shopping-list">
+                        <h3>Einkaufsliste</h3>
+                        <ul>
+                            <li>2 Zwiebeln</li>
+                            <li>2 Knoblauchzehen</li>
+                            <li>2 rote Paprika</li>
+                            <li>1 Dose Mais (ca. 285g)</li>
+                            <li>2 Dosen Kidneybohnen (à 400g)</li>
+                            <li>2 Dosen gehackte Tomaten (à 400g)</li>
+                            <li>500ml Gemüsebrühe</li>
+                            <li>Optional: Frischer Koriander, Joghurt</li>
+                            <li>Pflanzenöl</li>
+                            <li>Gewürze: Chilipulver, Kreuzkümmel (Cumin), Paprikapulver (edelsüß), Salz, Pfeffer</li>
+                        </ul>
+                    </div>
+                    <div class="preparation">
+                        <h3>Zubereitung</h3>
+                        <ol>
+                            <li>Zwiebeln und Knoblauch fein hacken. Paprika in Würfel schneiden.</li>
+                            <li>Öl in einem großen Topf erhitzen. Zwiebeln und Knoblauch darin glasig dünsten.</li>
+                            <li>Paprikawürfel hinzufügen und einige Minuten mitbraten.</li>
+                            <li>Mais und Kidneybohnen (abgetropft) sowie die gehackten Tomaten und Gemüsebrühe dazugeben.</li>
+                            <li>Mit Chilipulver (nach Schärfewunsch), 2 TL Kreuzkümmel und 1 EL Paprikapulver würzen. Gut umrühren.</li>
+                            <li>Das Chili mindestens 30 Minuten bei niedriger Hitze köcheln lassen. Mit Salz und Pfeffer abschmecken.</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="freezing-tip">
+                    <strong>❄️ Einfrier-Tipp:</strong> Komplett abkühlen lassen und in Behältern einfrieren. Beim Servieren nach dem Aufwärmen schmeckt es super mit frischem Koriander und einem Klecks Joghurt oder Sauerrahm.
+                </div>
+            </section>
+
+            <!-- REZEPT 3: VEGETARISCHE LINSEN-BOLOGNESE -->
+            <section id="rezept3" class="recipe-card">
+                <h2>3. Vegetarische Linsen-Bolognese</h2>
+                <p class="description">Eine fantastische, proteinreiche Alternative zur klassischen Bolognese. Ideal für einen schnellen Pasta-Abend.</p>
+                <div class="recipe-details">
+                    <div class="shopping-list">
+                        <h3>Einkaufsliste</h3>
+                        <ul>
+                            <li>1 Zwiebel</li>
+                            <li>2 Karotten</li>
+                            <li>2 Stangen Staudensellerie</li>
+                            <li>2 Knoblauchzehen</li>
+                            <li>1 Dose braune oder grüne Linsen (ca. 400g)</li>
+                            <li>2 Dosen passierte Tomaten (à 500g)</li>
+                            <li>100ml Rotwein (optional, aber empfohlen)</li>
+                            <li>Olivenöl</li>
+                            <li>Gewürze: Getrockneter Oregano, Thymian, Salz, Pfeffer, Prise Zucker</li>
+                        </ul>
+                    </div>
+                    <div class="preparation">
+                        <h3>Zubereitung</h3>
+                        <ol>
+                            <li>Zwiebel, Karotten, Sellerie und Knoblauch sehr fein würfeln (Soffritto).</li>
+                            <li>Olivenöl in einem Topf erhitzen und das Gemüse darin bei mittlerer Hitze ca. 10 Minuten weich dünsten.</li>
+                            <li>Die Linsen (abgetropft) hinzufügen und kurz mitbraten.</li>
+                            <li>Mit Rotwein ablöschen und fast vollständig einkochen lassen.</li>
+                            <li>Die passierten Tomaten hinzufügen. Mit Oregano, Thymian, Salz, Pfeffer und einer Prise Zucker würzen.</li>
+                            <li>Die Sauce mindestens 30-40 Minuten bei niedriger Hitze zugedeckt köcheln lassen, damit sich die Aromen verbinden.</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="freezing-tip">
+                    <strong>❄️ Einfrier-Tipp:</strong> Nur die Sauce einfrieren, nicht die Pasta. Die Nudeln immer frisch kochen, um die beste Konsistenz zu erhalten. Die Sauce hält sich mehrere Monate im Gefrierschrank.
+                </div>
+            </section>
+            
+            <!-- REZEPT 4: KICHERERBSEN-SPINAT-CURRY -->
+            <section id="rezept4" class="recipe-card">
+                <h2>4. Kichererbsen-Spinat-Curry</h2>
+                <p class="description">Ein schnelles, cremiges Curry, das in unter 30 Minuten fertig ist. Kokosmilch-basierte Currys lassen sich wunderbar einfrieren.</p>
+                <div class="recipe-details">
+                    <div class="shopping-list">
+                        <h3>Einkaufsliste</h3>
+                        <ul>
+                            <li>1 Zwiebel</li>
+                            <li>2 Knoblauchzehen</li>
+                            <li>1 Stück Ingwer (ca. 2 cm)</li>
+                            <li>1 Dose Kichererbsen (400g)</li>
+                            <li>1 Dose Kokosmilch (400ml)</li>
+                            <li>1 Dose gehackte Tomaten (400g)</li>
+                            <li>200g frischer Blattspinat (oder TK)</li>
+                            <li>2-3 EL Currypaste (gelb oder rot) oder 2 EL Currypulver</li>
+                            <li>Pflanzenöl</li>
+                            <li>Salz, Pfeffer</li>
+                        </ul>
+                    </div>
+                    <div class="preparation">
+                        <h3>Zubereitung</h3>
+                        <ol>
+                            <li>Zwiebel, Knoblauch und Ingwer fein hacken.</li>
+                            <li>Öl in einem Topf erhitzen und die Zwiebel glasig dünsten. Knoblauch und Ingwer kurz mitbraten.</li>
+                            <li>Currypaste (oder -pulver) hinzufügen und 1 Minute mitrösten, bis es duftet.</li>
+                            <li>Mit Kokosmilch und gehackten Tomaten ablöschen. Gut verrühren.</li>
+                            <li>Kichererbsen (abgetropft) dazugeben und das Curry ca. 10 Minuten köcheln lassen.</li>
+                            <li>Den Spinat nach und nach unterrühren, bis er zusammenfällt. Mit Salz und Pfeffer abschmecken.</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="freezing-tip">
+                    <strong>❄️ Einfrier-Tipp:</strong> Abkühlen lassen und portionsweise einfrieren. Passt perfekt zu Reis, der ebenfalls eingefroren oder frisch gekocht werden kann.
+                </div>
+            </section>
+            
+            <!-- REZEPT 5: GEMÜSE-BRATLINGE -->
+            <section id="rezept5" class="recipe-card">
+                <h2>5. Gemüse-Bratlinge</h2>
+                <p class="description">Perfekt für Burger, als Beilage oder einfach mit einem Dip. Man kann eine große Menge auf einmal machen und hat immer einen schnellen Snack zur Hand.</p>
+                <div class="recipe-details">
+                    <div class="shopping-list">
+                        <h3>Einkaufsliste</h3>
+                        <ul>
+                            <li>1 große Zucchini</li>
+                            <li>2 große Karotten</li>
+                            <li>1 Zwiebel</li>
+                            <li>150g zarte Haferflocken</li>
+                            <li>2 Eier (oder 2 EL Leinsamen + 6 EL Wasser)</li>
+                            <li>Bund frische Petersilie</li>
+                            <li>Pflanzenöl zum Braten</li>
+                            <li>Salz, Pfeffer, Paprikapulver</li>
+                        </ul>
+                    </div>
+                    <div class="preparation">
+                        <h3>Zubereitung</h3>
+                        <ol>
+                            <li>Zucchini und Karotten grob raspeln. In ein sauberes Küchentuch geben und kräftig auspressen, um überschüssige Flüssigkeit zu entfernen.</li>
+                            <li>Zwiebel und Petersilie fein hacken.</li>
+                            <li>Das geraspelte Gemüse mit Zwiebel, Petersilie, Haferflocken und Eiern in einer Schüssel vermengen.</li>
+                            <li>Kräftig mit Salz, Pfeffer und Paprikapulver würzen. Die Masse ca. 10 Minuten quellen lassen.</li>
+                            <li>Aus der Masse mit feuchten Händen kleine, flache Bratlinge formen.</li>
+                            <li>Öl in einer Pfanne erhitzen und die Bratlinge bei mittlerer Hitze von jeder Seite 4-5 Minuten goldbraun braten.</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="freezing-tip">
+                    <strong>❄️ Einfrier-Tipp:</strong> Die gebratenen und vollständig abgekühlten Bratlinge mit einem Stück Backpapier zwischen den Lagen in einen Gefrierbeutel geben. So kleben sie nicht zusammen und können einzeln entnommen werden.
+                </div>
+            </section>
+            
+            <!-- REZEPT 6: GEMÜSE-LASAGNE -->
+            <section id="rezept6" class="recipe-card">
+                <h2>6. Gemüse-Lasagne</h2>
+                <p class="description">Etwas mehr Vorbereitung, aber der Aufwand lohnt sich für mehrere Mahlzeiten. Lässt sich komplett vorbereitet und ungebacken einfrieren.</p>
+                <div class="recipe-details">
+                    <div class="shopping-list">
+                        <h3>Einkaufsliste</h3>
+                        <ul>
+                            <li>1 Zwiebel</li>, <li>1 Zucchini</li>, <li>1 Aubergine</li>, <li>1 rote Paprika</li>
+                            <li>2 Dosen gehackte Tomaten (à 400g)</li>
+                            <li>Lasagneplatten (ca. 12 Stück)</li>
+                            <li>Für die Béchamelsauce: 50g Butter, 50g Mehl, 700ml Milch, Muskatnuss</li>
+                            <li>200g geriebener Käse (z.B. Mozzarella oder Gouda)</li>
+                            <li>Olivenöl, Salz, Pfeffer, italienische Kräuter</li>
+                        </ul>
+                    </div>
+                    <div class="preparation">
+                        <h3>Zubereitung</h3>
+                        <ol>
+                            <li><b>Gemüsesauce:</b> Zwiebel und Gemüse würfeln. In Olivenöl anbraten. Tomaten und Kräuter zugeben, salzen, pfeffern und 15 Min. köcheln.</li>
+                            <li><b>Béchamelsauce:</b> Butter in einem Topf schmelzen, Mehl einrühren (Mehlschwitze). Nach und nach die Milch unter ständigem Rühren zugeben, bis eine glatte Sauce entsteht. Mit Salz, Pfeffer und Muskatnuss würzen. 5 Min. köcheln lassen.</li>
+                            <li><b>Schichten:</b> Eine Auflaufform fetten. Eine dünne Schicht Tomatensauce auf dem Boden verteilen. Dann abwechselnd Lasagneplatten, Tomatensauce und Béchamelsauce schichten. Mit einer Schicht Béchamel abschließen.</li>
+                            <li>Den geriebenen Käse darüber streuen.</li>
+                            <li>Im vorgeheizten Ofen bei 180°C (Umluft) ca. 30-40 Minuten goldbraun backen.</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="freezing-tip">
+                    <strong>❄️ Einfrier-Tipp:</strong> Die Lasagne komplett vorbereiten, aber <strong>nicht backen</strong>. Die Form gut mit Frischhaltefolie und Alufolie abdecken und einfrieren. Zum Zubereiten direkt aus dem Gefrierschrank (ohne Folie) in den Ofen schieben (Backzeit verlängert sich um ca. 20-30 Minuten).
+                </div>
+            </section>
+            
+            <!-- REZEPT 7: LINSEN-COTTAGE-PIE -->
+            <section id="rezept7" class="recipe-card">
+                <h2>7. Linsen-Cottage-Pie</h2>
+                <p class="description">Pures Wohlfühlessen: Eine herzhafte Linsen-Gemüse-Füllung unter einer cremigen Kartoffelpüree-Kruste.</p>
+                <div class="recipe-details">
+                    <div class="shopping-list">
+                        <h3>Einkaufsliste</h3>
+                        <ul>
+                           <li>1 kg mehlig kochende Kartoffeln</li>
+                           <li>1 Zwiebel, 2 Karotten, 200g Champignons</li>
+                           <li>1 Dose grüne oder braune Linsen (400g)</li>
+                           <li>150g TK-Erbsen</li>
+                           <li>400ml Gemüsebrühe</li>
+                           <li>2 EL Tomatenmark</li>
+                           <li>Für das Püree: Schuss Milch, Stück Butter, Salz, Pfeffer, Muskatnuss</li>
+                           <li>Olivenöl</li>
+                        </ul>
+                    </div>
+                    <div class="preparation">
+                        <h3>Zubereitung</h3>
+                        <ol>
+                           <li>Kartoffeln schälen, würfeln und in Salzwasser weich kochen.</li>
+                           <li>In der Zwischenzeit Zwiebel, Karotten und Pilze fein würfeln. In Öl anbraten, bis sie weich sind.</li>
+                           <li>Tomatenmark zugeben und kurz mitrösten. Linsen (abgetropft) und Gemüsebrühe hinzufügen. Aufkochen und 10 Min. köcheln lassen, bis die Sauce etwas andickt. TK-Erbsen unterrühren.</li>
+                           <li>Die Füllung in eine Auflaufform geben.</li>
+                           <li>Die gekochten Kartoffeln abgießen, mit Milch, Butter, Salz, Pfeffer und Muskat zu einem Püree stampfen.</li>
+                           <li>Das Püree auf der Linsenfüllung verteilen und mit einer Gabel ein Muster ziehen. Bei 200°C ca. 20-25 Min. backen, bis die Kruste goldbraun ist.</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="freezing-tip">
+                    <strong>❄️ Einfrier-Tipp:</strong> Den kompletten Auflauf (ungebacken oder bereits gebacken) abkühlen lassen. Gut abdecken und einfrieren. Zum Aufwärmen gefroren in den Ofen stellen, bis alles heiß und die Kruste goldbraun ist (ca. 45-50 Min).
+                </div>
+            </section>
+
+            <!-- REZEPT 8: AFRIKANISCHER ERDNUSSEINTOPF -->
+            <section id="rezept8" class="recipe-card">
+                <h2>8. Afrikanischer Erdnusseintopf</h2>
+                <p class="description">Ein unglaublich aromatischer und cremiger Eintopf mit Süßkartoffeln, der mal etwas ganz anderes ist und exzellent einfriert.</p>
+                <div class="recipe-details">
+                    <div class="shopping-list">
+                        <h3>Einkaufsliste</h3>
+                        <ul>
+                           <li>2 große Süßkartoffeln (ca. 800g)</li>
+                           <li>1 Zwiebel, 2 Knoblauchzehen, 1 Stück Ingwer</li>
+                           <li>1 rote Paprika</li>
+                           <li>1 Dose gehackte Tomaten (400g)</li>
+                           <li>1L Gemüsebrühe</li>
+                           <li>150g cremiges Erdnussmus (ohne Zucker)</li>
+                           <li>1 Limette</li>
+                           <li>Pflanzenöl</li>
+                           <li>Salz, Chiliflocken</li>
+                        </ul>
+                    </div>
+                    <div class="preparation">
+                        <h3>Zubereitung</h3>
+                        <ol>
+                           <li>Zwiebel, Knoblauch und Ingwer fein hacken. Süßkartoffeln schälen und in ca. 2 cm große Würfel schneiden. Paprika ebenfalls würfeln.</li>
+                           <li>Öl in einem großen Topf erhitzen. Zwiebel, Knoblauch und Ingwer darin andünsten.</li>
+                           <li>Süßkartoffel- und Paprikawürfel hinzufügen und kurz mitbraten.</li>
+                           <li>Mit gehackten Tomaten und Gemüsebrühe ablöschen. Aufkochen lassen.</li>
+                           <li>Das Erdnussmus einrühren, bis es sich vollständig aufgelöst hat.</li>
+                           <li>Den Eintopf bei mittlerer Hitze ca. 20-25 Minuten köcheln lassen, bis die Süßkartoffeln weich sind.</li>
+                           <li>Mit Salz, Chiliflocken und dem Saft der Limette abschmecken.</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="freezing-tip">
+                    <strong>❄️ Einfrier-Tipp:</strong> Vollständig abkühlen lassen und portionsweise einfrieren. Schmeckt nach dem Auftauen genauso gut wie frisch gekocht. Eventuell mit einem kleinen Schuss Wasser oder Brühe auflockern.
+                </div>
+            </section>
+            
+            <!-- REZEPT 9: KLASSISCHE MINESTRONE -->
+            <section id="rezept9" class="recipe-card">
+                <h2>9. Klassische Minestrone</h2>
+                <p class="description">Der italienische Suppenklassiker, der perfekt ist, um Gemüsereste zu verwerten. Eine riesige Menge auf einmal kochen und einfrieren!</p>
+                <div class="recipe-details">
+                    <div class="shopping-list">
+                        <h3>Einkaufsliste</h3>
+                        <ul>
+                            <li>2 Karotten, 2 Stangen Sellerie, 1 Zwiebel</li>
+                            <li>1 Zucchini</li>
+                            <li>2 Kartoffeln</li>
+                            <li>1 Dose weiße Bohnen (z.B. Cannellini, 400g)</li>
+                            <li>1 Dose gehackte Tomaten (400g)</li>
+                            <li>1.5L Gemüsebrühe</li>
+                            <li>Optional zum Servieren: Kleine Suppennudeln, Pesto, Parmesan</li>
+                            <li>Olivenöl, Salz, Pfeffer, getrocknete italienische Kräuter</li>
+                        </ul>
+                    </div>
+                    <div class="preparation">
+                        <h3>Zubereitung</h3>
+                        <ol>
+                            <li>Das gesamte Gemüse (Karotten, Sellerie, Zwiebel, Zucchini, Kartoffeln) in gleichmäßige, kleine Würfel schneiden.</li>
+                            <li>Olivenöl in einem großen Topf erhitzen. Karotten, Sellerie und Zwiebeln darin ca. 5 Minuten andünsten.</li>
+                            <li>Kartoffel- und Zucchiniwürfel hinzufügen und weitere 2 Minuten mitbraten.</li>
+                            <li>Mit den gehackten Tomaten und der Gemüsebrühe auffüllen.</li>
+                            <li>Die weißen Bohnen (abgetropft) und die italienischen Kräuter dazugeben. Mit Salz und Pfeffer würzen.</li>
+                            <li>Die Suppe aufkochen und dann bei niedriger Hitze ca. 20 Minuten köcheln lassen, bis das Gemüse gar ist.</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="freezing-tip">
+                    <strong>❄️ Einfrier-Tipp:</strong> Die Suppe <strong>ohne Nudeln</strong> kochen und einfrieren. Die kleinen Suppennudeln immer frisch kochen und erst beim Servieren zur aufgewärmten Suppe geben. So bleiben sie bissfest und die Suppe wird nicht matschig.
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <button onclick="scrollToTop()" id="toTopBtn" title="Nach oben">↑</button>
+
+    <script>
+        // --- JavaScript für den "Nach oben"-Button ---
+
+        // Referenz zum Button holen
+        var toTopBtn = document.getElementById("toTopBtn");
+
+        // Funktion, die beim Scrollen aufgerufen wird
+        window.onscroll = function() {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            // Zeige den Button an, wenn der User 300px oder mehr nach unten gescrollt hat
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                toTopBtn.style.display = "block";
+            } else {
+                toTopBtn.style.display = "none";
+            }
+        }
+
+        // Funktion, um zum Seitenanfang zu scrollen
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+
+</body>
+</html>
